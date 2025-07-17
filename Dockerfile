@@ -1,30 +1,24 @@
-# Use a lightweight image
-FROM python:3.10-alpine
-
-# Install dependencies for PyTorch & Flask
-RUN apk add --no-cache --update \
-    build-base \
-    libffi-dev \
-    python3-dev \
-    py3-pip \
-    jpeg-dev \
-    zlib-dev \
-    libjpeg \
-    openblas-dev \
-    && rm -rf /var/cache/apk/*
+# Use a smaller compatible image (slim, not alpine)
+FROM python:3.10-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy only necessary files
-COPY requirements.txt .
+# Install OS-level dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy your application
+# Copy your application code
 COPY app.py .
 
-# Run your app
+# Run the app
 CMD ["python", "app.py"]
