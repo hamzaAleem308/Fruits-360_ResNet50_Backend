@@ -1,0 +1,11 @@
+*.pth
+__pycache__/
+*.ipynb
+*.zip
+datasets/
+images/
+.DS_Store
+*.tar
+*.tar.gz
+env/
+venv/
