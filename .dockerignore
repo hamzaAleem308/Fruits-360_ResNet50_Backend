@@ -1,8 +1,8 @@
-*.pth
-*.pt
-*.tar
-*.zip
-dataset/
 __pycache__/
 *.pyc
-*.ipynb
+*.pyo
+*.pyd
+env/
+*.pth
+*.pt
+model.pth
