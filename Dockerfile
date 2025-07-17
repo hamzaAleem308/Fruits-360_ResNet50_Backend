@@ -1,23 +1,20 @@
-# Use a smaller compatible image (slim, not alpine)
-FROM python:3.10-slim
+# ✅ Use official PyTorch image
+FROM pytorch/pytorch:2.1.0-cpu
 
 # Set working directory
 WORKDIR /app
 
-# Install OS-level dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+# Install other system packages (if needed)
+RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Install additional Python packages
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy your application code
+# Copy application code
 COPY app.py .
 
 # Run the app
